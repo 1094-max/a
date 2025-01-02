@@ -1,0 +1,37 @@
+<button onclick="startInfiniteWindows()">무한 새 창 열기 (전체화면)</button>
+<button onclick="stopInfiniteWindows()">멈추기</button>
+
+<script>
+let stop = false; // 창 열기를 중단하기 위한 플래그
+
+function startInfiniteWindows() {
+  stop = false; // 멈추기 플래그 초기화
+
+  function openWindow() {
+    if (stop) return; // 멈추기 버튼이 클릭되면 중단
+
+    const newWindow = window.open(
+      'https://example.com',
+      '_blank',
+      'toolbar=no,menubar=no,scrollbars=no,resizable=yes'
+    );
+
+    if (newWindow) {
+      // 새 창을 전체화면으로 시도
+      newWindow.moveTo(0, 0); // 창을 화면 좌상단으로 이동
+      newWindow.resizeTo(screen.width, screen.height); // 화면 크기만큼 확장
+
+      setTimeout(openWindow, 100); // 0.1초 후 다음 창 열기
+    } else {
+      alert('팝업 차단이 활성화되어 창을 열 수 없습니다.');
+      stop = true; // 팝업 차단 시 중단
+    }
+  }
+
+  openWindow(); // 첫 번째 창 열기
+}
+
+function stopInfiniteWindows() {
+  stop = true; // 창 열기 중단
+}
+</script>
